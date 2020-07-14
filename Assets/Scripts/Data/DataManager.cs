@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 
 public enum ListType { Local, Global }
+public enum EntryType { Question, Answer }
 
 public class DataManager : MonoBehaviour
 {
@@ -19,16 +20,18 @@ public class DataManager : MonoBehaviour
     
     public Dictionary<ListType, DataList> lists;
 
+
     private DataList activeList;
     private int activeIndex; // not to be confused with the index field of class Question
-    public Question activeQuestion;
+    [HideInInspector] public Question activeQuestion;
+
+    //public LocalUser localUser;
 
     private void Awake()
     {
         instance = this;
+        new LocalUser();
 
-        //localList = new DataList();
-        //localList.Initialize("local.json");
 
         lists = new Dictionary<ListType, DataList>()
         {
@@ -43,6 +46,7 @@ public class DataManager : MonoBehaviour
 
     private void Start()
     {
+        //OpenList(ListType.Local);
         /*localList.AddQuestion(new Question("how to play?", new User()));
         localList.AddQuestion(new Question("how to play?", new User()));
 
@@ -57,22 +61,22 @@ public class DataManager : MonoBehaviour
 
     private void Update()
     {
-        /*
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            localList.Save();
+            lists[ListType.Local].Save();
         }
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            localList.Load();
+            lists[ListType.Local].Load();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            localList.Clear();
+            lists[ListType.Local].Clear();
         }
-        */
+        
     }
 
     public void OpenList(ListType listType)
@@ -85,7 +89,7 @@ public class DataManager : MonoBehaviour
         activeList = null;
     }
 
-    public void SubmitQuestion(string input, User user)
+    public void SubmitEntry(EntryType entryType, string input, User user)
     {
         if (activeList == null)
         {
@@ -93,7 +97,17 @@ public class DataManager : MonoBehaviour
             return;
         }
 
-        activeList.AddQuestion(new Question(input, user));
+        if (entryType == EntryType.Question)
+        {
+            activeList.AddQuestion(new Question(input, user));
+        }
+
+        if (entryType == EntryType.Answer)
+        {
+            activeQuestion.AddAnswer(new Answer(input));
+        }
+
+        activeList.Save();
     }
 
     public void PreviousQuestion()
