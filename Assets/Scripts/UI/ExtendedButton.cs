@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Target { Home, Wardrobe, Mailbox, Ask, Answer, MyQuestions }
 
 public class ExtendedButton : MonoBehaviour
 {
-    //public Target target;
+    public Target target;
 
     public void OpenLocalList()
     {
@@ -17,4 +16,8 @@ public class ExtendedButton : MonoBehaviour
         DataManager.Instance.OpenList(ListType.Global);
     }
 
+    public void GotoPage()
+    {
+
+    }
 }

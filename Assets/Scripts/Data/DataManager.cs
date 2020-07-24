@@ -21,8 +21,8 @@ public class DataManager : MonoBehaviour
     public Dictionary<ListType, DataList> lists;
 
 
-    private DataList activeList;
-    private int activeIndex; // not to be confused with the index field of class Question
+    [HideInInspector] public DataList activeList;
+    private int activeIndex = 0; // not to be confused with the index field of class Question
     [HideInInspector] public Question activeQuestion;
 
     //public LocalUser localUser;
@@ -30,8 +30,8 @@ public class DataManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        new LocalUser();
-
+        //new LocalUser();
+        
 
         lists = new Dictionary<ListType, DataList>()
         {
@@ -49,19 +49,17 @@ public class DataManager : MonoBehaviour
         //OpenList(ListType.Local);
         /*localList.AddQuestion(new Question("how to play?", new User()));
         localList.AddQuestion(new Question("how to play?", new User()));
-
-        for (int i=0; i<localList.questions.Count; i++)
+        */
+        for (int i=0; i< lists[ListType.Local].questions.Count; i++)
         {
-            localList.questions[i].AddAnswer(new Answer("fuk off"));
-            localList.questions[i].AddAnswer(new Answer("git gud"));
-        }*/
-
-        
+            lists[ListType.Local].questions[i].AddAnswer(new Answer("fuk off"));
+            lists[ListType.Local].questions[i].AddAnswer(new Answer("git gud"));
+        }
     }
 
     private void Update()
     {
-        
+        /*
         if (Input.GetKeyDown(KeyCode.Space))
         {
             lists[ListType.Local].Save();
@@ -76,12 +74,13 @@ public class DataManager : MonoBehaviour
         {
             lists[ListType.Local].Clear();
         }
-        
+        */
     }
 
     public void OpenList(ListType listType)
     {
         activeList = lists[listType];
+        activeQuestion = activeList.questions[0];
     }
 
     public void CloseList()
@@ -149,7 +148,7 @@ public class DataManager : MonoBehaviour
     }
 
     
-    public Question GetQuestion(int index)
+    public Question GetQuestion()
     {
         if (activeList==null)
         {
@@ -157,7 +156,6 @@ public class DataManager : MonoBehaviour
             return null;
         }
 
-        return activeList.questions[index];
+        return activeList.questions[activeIndex];
     }
-    
 }

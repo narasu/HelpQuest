@@ -18,7 +18,7 @@ public class Character
 
     public Character()
     {
-        hair = 1;
+        hair = 2; // temporary values. add customization for local, randomization for other
         top = 2;
         bottom = 0;
         shoes = 1;
@@ -45,11 +45,12 @@ public class Character
         currentItems.TryGetValue(itemType, out int t);
         itemPaths.TryGetValue(itemType, out string p);
 
-        string path = "Character/" + p + t.ToString();
+        string path = "Character/" + p + "/" + p + t.ToString();
 
         try
         {
-            return (Sprite)Resources.Load(path);
+            Debug.Log(path);
+            return Resources.Load<Sprite>(path);
         }
         catch
         {

@@ -39,6 +39,5 @@ public class SubmitField : MonoBehaviour
         {
             Debug.LogError("Something went wrong while submitting your entry!");
         }
-        
     }
 }

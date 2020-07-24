@@ -9,7 +9,7 @@ public class Question
     public User user;
     public List<Answer> answers;
     
-    public int index = 0;
+    public int index = 0; // unsure as of yet if this field is really necessary
 
     public Question(string text, User user)
     {
